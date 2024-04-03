@@ -7,6 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         //String a = "Иванов Иван Иванович 10.11.2020 1234567891 f";
-        Run run = new Run();
+        Saver run = new Saver();
     }
 }
