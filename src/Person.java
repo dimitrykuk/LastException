@@ -1,12 +1,13 @@
 import java.util.Scanner;
 
 public class Person {
-    String surname;
-    String name;
-    String patronymic;
-    String date;
-    int phoneNum;
-    char sex;
+
+     String surname;
+     String name;
+     String patronymic;
+     String date;
+     int phoneNum;
+     char sex;
     public Person(){
         inputData();
     }
@@ -16,7 +17,7 @@ public class Person {
             throw new FormatParametrException(" Неверно введен пол. Необходим 1 символ");
         }
         if (!par[5].equals("m") && !par[5].equals("f")){
-            throw new FormatParametrException(" Необходимо ввести f или m");
+            throw new FormatParametrException(" Неверно введен пол. Необходимо ввести f или m");
         }
         sex = par[5].charAt(0);
 
@@ -25,17 +26,18 @@ public class Person {
         } catch (NumberFormatException e){
             throw new FormatParametrException(" В номере присутствуют неевалидные значения");
         }
-        if (par[4].length() != 10) throw new FormatParametrException(" Недопустимо длинный номер");
+        if (par[4].length() > 10) throw new FormatParametrException(" Длина номера больше 10");
+        if (par[4].length() < 10) throw new FormatParametrException(" Длина номера меньше 10");
 
         date = par[3];
-        String[] dateTipe = date.split("\\.");
-        if (dateTipe.length != 3) throw new FormatParametrException(" Формат даты должен быть: dd.mm.yyyy");
-        if (dateTipe[0].length() != 2 && dateTipe[1].length() != 2 && dateTipe[2].length() != 4){
+        String[] dateType = date.split("\\.");
+        if (dateType.length != 3) throw new FormatParametrException(" Формат даты должен быть: dd.mm.yyyy");
+        if (dateType[0].length() != 2 && dateType[1].length() != 2 && dateType[2].length() != 4){
             throw new FormatParametrException(" Неверный формат даты");
         }
-        for (int i = 0; i < date.length(); i++) {
+        for (String s : dateType) {
             try {
-                Integer.parseInt(dateTipe[i]);
+                Integer.parseInt(s);
             } catch (NumberFormatException e) {
                 throw new NumberFormatException(" Недопустимые символы в дате");
             }
@@ -66,10 +68,23 @@ public class Person {
         checkCorrectInputParameters(arr);
     }
     private void inputData(){
-        System.out.println("Введите данные в следующем формате: \n Фамилия Имя Отчество Дата Номер Пол ");
+        System.out.println("Введите данные в следующем формате: \n Фамилия " +
+                "Имя " +
+                "Отчество " +
+                "Дата(в формате хх.хх.хххх) " +
+                "Номер(мобильный 10 цифр) " +
+                "Пол(f или m) ");
         Scanner scanner = new Scanner(System.in);
         String data = scanner.nextLine();
         scanner.close();
         checkCorrectInput(data);
+    }
+
+    public String getSurname(){
+        return surname;
+    }
+
+    public String getData(){
+        return String.format("%s %s %s %s %d %c", surname, name,patronymic,date,phoneNum,sex );
     }
 }
